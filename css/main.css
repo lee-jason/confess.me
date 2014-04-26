@@ -1,0 +1,338 @@
+/*! HTML5 Boilerplate v4.3.0 | MIT License | http://h5bp.com/ */
+
+/*
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+html {
+    color: #222;
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+/*
+ * Remove text-shadow in selection highlight: h5bp.com/i
+ * These selection rule sets have to be separate.
+ * Customize the background color to match your design.
+ */
+
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+    resize: vertical;
+}
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+*, *:before, *:after {
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+ }
+body{
+	background-image: url('/img/background_sos.png');
+	padding-top: 60px;
+}
+p{
+    margin:0px;
+    padding:8px;
+}
+#headerBar {
+	color: #fff;
+	font-weight:bold;
+	border-left: 6px solid black;
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.40);      
+	-webkit-box-shadow: 0px -4px 9px 8px rgba(132, 132, 130, 0.6); -moz-box-shadow:    0px -4px 9px 8px rgba(132, 132, 130, 0.6); box-shadow:         0px -4px 9px 8px rgba(132, 132, 130, 0.6);
+}
+#headerBar p {
+    font-size: 24px;
+    float: left;
+    width: 200px;
+}
+#confessionForm {
+    height: 100%;
+    float: left;
+    padding: 10px;
+    position: relative;
+}
+#confessionContainer{
+	margin: 0 auto;
+}
+#submitBox {
+    color: rgb(80, 80, 80);
+    font-weight: normal;
+    width: 300px;
+    min-height: 28px;
+    display: inline-block;
+    float: left;
+    overflow: hidden;
+}
+#submit {
+	display: inline-block;
+	float: left;
+	bottom: 10px;
+	position: absolute;
+	margin-left: 8px;
+}
+#confessionContainer:before,
+#confessionContainer:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+#confessionContainer:after {
+    clear: both;
+}
+.confessionCol{
+	width:300px;
+	float:left;
+	margin:0 10px;
+}
+.messageContainer{
+	margin: 20px 0;
+	width:300px;
+	background-color:#fff;
+    box-shadow: rgba(0, 0, 0, 0.087059) 0px 3px 3px 0px;
+}
+.confessionMessage.checked, .confessionMessage:hover{
+	background-color: rgba(200, 205, 255, 0.8);
+}
+.confessionMessage{
+	border-left: 4px solid blue;
+}
+.absolveMessage.checked, .absolveMessage:hover{
+	background-color: rgba(248, 166, 255, 0.8);
+}
+.absolveMessage{
+    border-left: 4px solid #a63aee;
+}
+.thankyouMessage.checked, .thankyouMessage:hover{
+	
+}
+.thankyouMessage{
+    border-left: 4px solid #5abbcd;
+    background-color: rgba(231, 248, 255, 0.8);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+/*
+ * Hide from both screenreaders and browsers: h5bp.com/u
+ */
+
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+/*
+ * Hide only visually, but have it available for screenreaders: h5bp.com/v
+ */
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+/*
+ * Extends the .visuallyhidden class to allow the element to be focusable
+ * when navigated to via the keyboard: h5bp.com/p
+ */
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+
+/*
+ * Hide visually and from screenreaders, but maintain layout
+ */
+
+.invisible {
+    visibility: hidden;
+}
+
+/*
+ * Clearfix: contain floats
+ *
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    `contenteditable` attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that receive the `clearfix` class.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen 
+and (min-width: 1300px) {
+   #confessionContainer{
+   		width:1280px;
+   }
+}
+
+@media only screen 
+and (min-width: 980px) 
+and (max-width: 1299px){
+	#confessionContainer{
+		width: 960px;
+	}
+}
+
+@media only screen 
+and (min-width: 660px) 
+and (max-width: 979px){
+    #confessionContainer{
+    	width: 640px;
+    }
+}
+
+@media only screen and (max-width: 659px) {
+    #confessionContainer{
+    	width: 95%;
+    }
+    .confessionCol {
+		width: 100%;
+		float: left;
+		margin: 0 0px;
+	}
+	.messageContainer {
+		width: 100%;
+	}
+}
+
+
+@media print,
+       (-o-min-device-pixel-ratio: 5/4),
+       (-webkit-min-device-pixel-ratio: 1.25),
+       (min-resolution: 120dpi) {
+    /* Style adjustments for high resolution devices */
+}
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid required HTTP connection: h5bp.com/r
+   ========================================================================== */
+
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important; /* Black prints faster: h5bp.com/s */
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    /*
+     * Don't show links for images, or javascript/internal links
+     */
+
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group; /* h5bp.com/t */
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
