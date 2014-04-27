@@ -7,7 +7,7 @@
 	, Cookies = require('cookies')
 	, CookieSigner = require('cookie-signature');
 	
-	server.listen(5000);
+	server.listen(process.env.PORT || 5000);
 	var __dirname = "";
 	var cookieMaxAge = 8000;
 	var sessionKey = 'S3ssi0nK3y';
