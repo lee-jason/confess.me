@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/lee-jason/confess.me/issues"
   },
-  "homepage": "https://github.com/lee-jason/confess.me"
+  "homepage": "https://github.com/lee-jason/confess.me",
+  "dependencies": {
+    "cookie-signature": "^1.0.3",
+    "cookies": "^0.4.0",
+    "express": "^3.4.8",
+    "socket.io": "^0.9.16"
+  }
 }
