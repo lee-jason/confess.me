@@ -5,12 +5,13 @@
 	, io = require('socket.io').listen(server)
 	, path = require('path')
 	, Cookies = require('cookies')
-	, CookieSigner = require('cookie-signature');
+	, CookieSigner = require('cookie-signature')
+	, secrets = require('./secrets.js');
 	
 	server.listen(process.env.PORT || 5000);
 	var __dirname = "";
 	var cookieMaxAge = 8000;
-	var sessionKey = 'S3ssi0nK3y';
+	var sessionKey = secrets.sessionKey;
 	var messageHandler = new MessageHandler();
 	
 	// New call to compress content
