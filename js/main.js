@@ -1,5 +1,5 @@
 (function(){
-	var socket = io.connect('http://localhost');
+	var socket = location.origin;
 	//stores the unsigned sessionID post load
 	var sessionHandler = new SessionHandler();
 	var messageHandler = new MessageHandler();
