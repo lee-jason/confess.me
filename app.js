@@ -6,9 +6,19 @@
 	, path = require('path')
 	, Cookies = require('cookies')
 	, CookieSigner = require('cookie-signature')
+	, mongoose = require('mongoose')
+	, uriUtil = require('mongodb-uri')
+	, session = require('express-session')
+	//, MongoStore = require('connect-mongo')(session)
 	, secrets = require('./secrets.js');
 	
-	server.listen(process.env.PORT || 5000);
+	var env = process.env.NODE_ENV || 'development';
+	var mongourl = (process.env.NODE_ENV === 'production' ? 'mongodb://heroku_app24577909:6dtie406h7d3jh3o963bo0cl3e@ds051368.mongolab.com:51368/heroku_app24577909' : 'mongodb://localhost/confessme');
+	var port = process.env.PORT || 5000;
+	
+	(process.env.NODE_ENV === 'production' ? io.set('log level', 1) : io.set('log level', 2));
+	
+	server.listen(port);
 	var __dirname = "";
 	var cookieMaxAge = 8000;
 	var sessionKey = secrets.sessionKey;
@@ -27,7 +37,22 @@
 		res.sendfile(indexPath);
 		
 		var session = req.session;
+		console.log(req.session);
 	});
+	
+	/*Mongo configurations*/
+	var mongooseUri = uriUtil.formatMongoose(mongourl);
+	mongoose.connect(mongooseUri);
+	
+	/*Mongoose Schema and Models*/
+	var MessageSchema = new mongoose.Schema({
+		text: {type:String, required: true},
+		sessionID: {type:String, required: true},
+		messageType: {type:String},
+		timestamp: {type:Number, required: true}
+	});
+	
+	var MessageModel = mongoose.model('Message', MessageSchema);
 	
 	//a map of sessionID to socket.id
 	var sessionToSocketMap = [];
@@ -42,6 +67,9 @@
 		//on initial load, return the latest list of messages
 		//when receiving sessionID information, store it in the list in memory
 		//then pass back the unsigned version back to the client
+		//the reason why we use cookie based session management is because
+		//we don't have access to the req through websockets.  We can only pass back the session data that the client knows
+		//and what the client knows is the cookie data.
 		socket.on('init', function(data){
 			if(data.signedSessionID)
 			{
@@ -51,7 +79,11 @@
 		        sessionToSocketMap[unsignedSessionID] = socket.id;
 		        console.log(sessionToSocketMap);
 			}
-			socket.emit('responseInit', {unsignedSessionID: unsignedSessionID, messageStore: messageHandler.getMessageStore(), messageLimit: messageHandler.getMessageLimit()});
+			messageHandler.getMessageStorePromise().addBack(function(err, messages){
+				if(err) return console.error(err);
+				socket.emit('responseInit', {unsignedSessionID: unsignedSessionID, messageStore: messages, messageLimit: messageHandler.getMessageLimit()});
+			});
+			
 		});
 		
 		//when receiving new information from the client, post it back to all the other clients
@@ -106,14 +138,54 @@
 		//messageData will be updated appropriately to have this timestamp as well
 		var messageStore = [];
 		//the amount of messages exclusive
-		var MESSAGE_LIMIT = 30;
+		var MESSAGE_LIMIT = 300;
 		this.addMessage = function(messageData){
 			if(messageStore.length > 30){
 				messageStore = messageStore.slice(1);
 			}
 			var timeNow = Date.now();
 			messageData.timestamp = timeNow;
+			
 			messageStore.push(messageData);
+			
+			//the latest 30 messages will also be stored in the mongo database
+			var newMessage = new MessageModel({
+				text: messageData.text,
+				sessionID: messageData.sessionID,
+				messageType: messageData.messageType,
+				timestamp: messageData.timestamp
+			});
+			console.log('newMessage created', newMessage.timestamp , newMessage.text);
+			newMessage.save(function(err){
+				console.log('save hit?');
+				if(err){
+					console.error(err);
+					return;
+				}
+				console.log('message saved,', newMessage.text);
+			});
+			
+			//if the count of messages is greater than the limit, remove the earliest messages
+			MessageModel.count({}, function(err, messageCount){
+				if(err) return console.error(err);
+				console.log('message count:', messageCount);
+				if(messageCount > MESSAGE_LIMIT){
+					MessageModel.findOneAndRemove({},{sort: {timestamp:1}},function(err, oldestEntry){
+						if(err) console.error(err);
+						console.log('oldest entry removed');
+					});
+				}
+			});
+			
+
+			
+//			newMessage.count({}, function(err, messageCount){
+//				if(err) return console.error(err);
+//				if(messageCount > MESSAGE_LIMIT){
+//					
+//				}
+//			});
+			
 //			if(Object.keys(messageStore).length >= MESSAGE_LIMIT){
 //				//remove one, before adding another
 //				delete messageStore[Object.keys(messageStore)[0]];
@@ -123,8 +195,13 @@
 		this.getLatestMessage = function(){
 			return messageStore[messageStore.length - 1];
 		}
-		this.getMessageStore = function(){
-			return messageStore;
+		this.getMessageStorePromise = function(){
+			var query = MessageModel.find({});
+			return query.exec(function(err, messages){
+				if(err) return console.error(err);
+				//console.log('messages returned from db', messages);
+				return messages;
+			});
 		}
 		this.getMessageLimit = function(){
 			return MESSAGE_LIMIT;

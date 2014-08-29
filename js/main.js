@@ -104,6 +104,10 @@
 	        if (e.which == 8 || e.which == 46) {
 	            $(this).height(parseFloat($(this).css("min-height")) != 0 ? parseFloat($(this).css("min-height")) : parseFloat($(this).css("font-size")));
 	        }
+	        //if enter, submit it
+	        if(e.which === 13){
+	        	$('#confessionForm').submit();
+	        }
 	        //  the following will help the text expand as typing takes place
 	        while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
 	            $(this).height($(this).height()+1);

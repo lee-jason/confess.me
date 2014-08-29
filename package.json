@@ -20,6 +20,10 @@
     "cookie-signature": "^1.0.3",
     "cookies": "^0.4.0",
     "express": "^3.4.8",
-    "socket.io": "^0.9.16"
+    "socket.io": "^0.9.16",
+    "connect-mongo": "^0.4.1",
+    "express-session": "^1.7.6",
+    "mongodb-uri": "^0.9.7",
+    "mongoose": "^3.8.15"
   }
 }
