@@ -1,0 +1,1 @@
+exports.sessionKey = 'S3ssi0nK3y';
