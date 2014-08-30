@@ -13,6 +13,7 @@
 	, secrets = require('./secrets.js');
 	
 	var env = process.env.NODE_ENV || 'development';
+	console.log('environment:', env);
 	var mongourl = (process.env.NODE_ENV === 'production' ? 'mongodb://heroku_app24577909:6dtie406h7d3jh3o963bo0cl3e@ds051368.mongolab.com:51368/heroku_app24577909' : 'mongodb://localhost/confessme');
 	var port = process.env.PORT || 5000;
 	
@@ -41,6 +42,7 @@
 	});
 	
 	/*Mongo configurations*/
+	console.log('before mongoose.connect');
 	var mongooseUri = uriUtil.formatMongoose(mongourl);
 	mongoose.connect(mongooseUri);
 	
