@@ -8,7 +8,7 @@
 	, CookieSigner = require('cookie-signature')
 	, mongoose = require('mongoose')
 	, uriUtil = require('mongodb-uri')
-	, session = require('express-session')
+	, cookieSession = require('cookie-session')
 	//, MongoStore = require('connect-mongo')(session)
 	, secrets = require('./secrets.js');
 	
@@ -27,7 +27,7 @@
 	// New call to compress content
 	app.use(express.compress());
 	app.use(express.cookieParser());
-	app.use(express.session({secret: sessionKey, cookie: {httpOnly: false}}));
+	app.use(cookieSession({secret: sessionKey, cookie: {httpOnly: false}}));
 	app.use('/js', express.static(path.resolve('js')));
 	app.use('/css', express.static(path.resolve('css')));
 	app.use('/img', express.static(path.resolve('img')));
@@ -73,6 +73,7 @@
 		socket.on('init', function(data){
 			if(data.signedSessionID)
 			{
+				console.log('init data', data);
 				//need to unescape sessionID since it comes back as escaped...
 				var unsignedSessionID;
 				unsignedSessionID = Helper.cookieUnsigner(data.signedSessionID);
@@ -140,9 +141,9 @@
 		//the amount of messages exclusive
 		var MESSAGE_LIMIT = 300;
 		this.addMessage = function(messageData){
-			if(messageStore.length > 30){
-				messageStore = messageStore.slice(1);
-			}
+//			if(messageStore.length > 30){
+//				messageStore = messageStore.slice(1);
+//			}
 			var timeNow = Date.now();
 			messageData.timestamp = timeNow;
 			
@@ -233,10 +234,13 @@
 	
 	Helper = {
 		cookieUnsigner: function(signedEscapedSessionID){
-			if(signedEscapedSessionID.length > 24)
-				return CookieSigner.unsign(unescape(signedEscapedSessionID).slice(2), sessionKey);
-			else
-				return signedEscapedSessionID
+			if(signedEscapedSessionID){
+				if(signedEscapedSessionID.length > 24)
+					return CookieSigner.unsign(unescape(signedEscapedSessionID).slice(2), sessionKey);
+				else
+					return signedEscapedSessionID
+			}
+			return "";
 		}
 	}
 	

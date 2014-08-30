@@ -291,6 +291,7 @@
 	function getCookie(cname)
 	{
 	var name = cname + "=";
+	//so document.cookie doesn't always work on localhost. returns ""
 	var ca = document.cookie.split(';');
 	for(var i=0; i<ca.length; i++) 
 	  {
