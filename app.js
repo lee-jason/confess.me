@@ -13,6 +13,8 @@
 	, secrets = require('./secrets.js');
 	
 	var env = process.env.NODE_ENV || 'development';
+	//ensure heroku or what ever web service actually has the NODE_ENV attribute set..
+	//otherwise will cause a mongo error due to not being able to find the db url.
 	console.log('environment:', env);
 	var mongourl = (process.env.NODE_ENV === 'production' ? 'mongodb://heroku_app24577909:6dtie406h7d3jh3o963bo0cl3e@ds051368.mongolab.com:51368/heroku_app24577909' : 'mongodb://localhost/confessme');
 	var port = process.env.PORT || 5000;
