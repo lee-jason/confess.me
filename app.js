@@ -8,7 +8,8 @@
 	, CookieSigner = require('cookie-signature')
 	, mongoose = require('mongoose')
 	, uriUtil = require('mongodb-uri')
-	, cookieSession = require('cookie-session')
+    , cookieSession = require('express-session')
+	//, cookieSession = require('cookie-session')
 	//, MongoStore = require('connect-mongo')(session)
 	, secrets = require('./secrets.js');
 	
@@ -51,7 +52,7 @@
 	/*Mongoose Schema and Models*/
 	var MessageSchema = new mongoose.Schema({
 		text: {type:String, required: true},
-		sessionID: {type:String, required: true},
+		sessionID: {type:String},
 		messageType: {type:String},
 		timestamp: {type:Number, required: true}
 	});
@@ -93,7 +94,7 @@
 		
 		//when receiving new information from the client, post it back to all the other clients
 		socket.on('submit', function (data) {
-			console.log(data);
+			console.log("submit hit", data);
 			data.messageType = MESSAGE_TYPES.CONFESSION;
 			messageHandler.addMessage(data);
 			io.sockets.emit('newMessage', messageHandler.getLatestMessage());
@@ -101,11 +102,12 @@
 		
 		//when receiving an absolve from the client, send a message to that specific socket that gets absolved
 		socket.on('pardon', function(data){
-			console.log(data);
+			console.log('pardoned', data);
 			if(sessionToSocketMap[data.sessionForgiven]){
 				if(socketIDtoSocketObjMap[sessionToSocketMap[data.sessionForgiven]]){
 					data.sessionForgiver = Helper.cookieUnsigner(data.sessionForgiver);
 					data.messageType = MESSAGE_TYPES.PARDON;
+                    console.log('pardoned, sending message', {sessionID: data.sessionForgiver, messageType: data.messageType, timestamp: Date.now()});
 					socketIDtoSocketObjMap[sessionToSocketMap[data.sessionForgiven]].emit('newMessage', {sessionID: data.sessionForgiver, messageType: data.messageType, timestamp: Date.now()});
 				}
 			}
@@ -160,7 +162,7 @@
 				messageType: messageData.messageType,
 				timestamp: messageData.timestamp
 			});
-			console.log('newMessage created', newMessage.timestamp , newMessage.text);
+			console.log('newMessage created', newMessage);
 			newMessage.save(function(err){
 				console.log('save hit?');
 				if(err){
@@ -235,11 +237,14 @@
 	    }
 	    return size;
 	};
-	
+
 	Helper = {
+        //this function either takes an unescaped signed cookie that needs to be escaped and unsigned,
+        //or it already takes an unsigned escaped cookie and returns just that.. maybe I need to split this method because its handling two completely opposite jobs.
 		cookieUnsigner: function(signedEscapedSessionID){
 			if(signedEscapedSessionID){
-				if(signedEscapedSessionID.length > 24)
+                //signed unes
+				if(signedEscapedSessionID.length > 32)
 					return CookieSigner.unsign(unescape(signedEscapedSessionID).slice(2), sessionKey);
 				else
 					return signedEscapedSessionID
@@ -247,6 +252,6 @@
 			return "";
 		}
 	}
-	
+
 	MESSAGE_TYPES = {CONFESSION: 'confession', PARDON: 'pardon', THANKS: 'thanks'};
 }());
