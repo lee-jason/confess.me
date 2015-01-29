@@ -46,7 +46,7 @@
 		//when receiving an updated userCount from server, update the user counter
 		socket.on('newUserCount', function(data) {
 			var submitMessage = 'submit';
-			data.userCount > 0 ? submitMessage = 'tell '+data.userCount+' people' : 'leave a message';
+			data.userCount > 0 ? submitMessage = 'tell '+data.userCount+ (data.userCount > 1 ? ' people' : ' person') : 'leave a message';
 			$('#submit').attr('value', submitMessage);
 			
 			//$('#userCount').html(data.userCount);
@@ -205,10 +205,6 @@
 			}
 		}
 		
-		this.displayMultiple = function(arrayOfMessages){
-			
-		}
-		
 		function updateColCount(){
 			colHeights = [];
 			if(window.innerWidth >= 1300){
@@ -243,6 +239,7 @@
 		
 		//called when the window resizes, detemrines whether an update to columns and a redraw is needed
 		this.recalculateLayout = function(){
+			$('#headerSpacer').height($('#headerBar').height());
 			var prevColCount = colCount;
 			updateColCount();
 			var currColCount = colCount;

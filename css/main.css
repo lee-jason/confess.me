@@ -48,7 +48,6 @@ textarea {
  }
 body{
 	background-image: url('/img/background_sos.png');
-	padding-top: 60px;
 }
 p{
     margin:0px;
@@ -57,23 +56,27 @@ p{
 #headerBar {
 	color: #fff;
 	font-weight:bold;
-	border-left: 6px solid black;
+	border-left: 6px solid rgb(26, 0, 255);
 	position: fixed;
 	width: 100%;
 	top: 0;
 	left: 0;
-	background-color: rgba(0, 0, 0, 0.40);      
+	background-color: rgba(0, 71, 255, 0.4);      
 	-webkit-box-shadow: 0px -4px 9px 8px rgba(132, 132, 130, 0.6); -moz-box-shadow:    0px -4px 9px 8px rgba(132, 132, 130, 0.6); box-shadow:         0px -4px 9px 8px rgba(132, 132, 130, 0.6);
+	padding-left: 8px;
+	padding-bottom: 8px;
 }
 #headerBar p {
     font-size: 24px;
     float: left;
-    width: 200px;
+    width: 110px;
+    margin: 8px 0 0 0;
+    padding: 0;
 }
 #confessionForm {
     height: 100%;
     float: left;
-    padding: 10px;
+    margin: 10px 0 0 0;
     position: relative;
 }
 #confessionContainer{
@@ -82,18 +85,53 @@ p{
 #submitBox {
     color: rgb(80, 80, 80);
     font-weight: normal;
-    width: 300px;
+    width: 385px;
     min-height: 28px;
     display: inline-block;
     float: left;
     overflow: hidden;
+    margin-right: 8px;
+    margin-bottom: 4px;
 }
 #submit {
 	display: inline-block;
-	float: left;
-	bottom: 10px;
-	position: absolute;
-	margin-left: 8px;
+	height: 29px;
+	border-radius: 2px;
+	border: 0px;
+	margin-top: 2px;
+	background: rgb(229,112,231); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(229,112,231,1) 0%, rgba(200,94,199,1) 47%, rgba(168,73,163,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(229,112,231,1)), color-stop(47%,rgba(200,94,199,1)), color-stop(100%,rgba(168,73,163,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(229,112,231,1) 0%,rgba(200,94,199,1) 47%,rgba(168,73,163,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(229,112,231,1) 0%,rgba(200,94,199,1) 47%,rgba(168,73,163,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(229,112,231,1) 0%,rgba(200,94,199,1) 47%,rgba(168,73,163,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(229,112,231,1) 0%,rgba(200,94,199,1) 47%,rgba(168,73,163,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e570e7', endColorstr='#a849a3',GradientType=0 ); /* IE6-9 */
+
+}
+
+#submit:hover{
+background: rgb(243,186,244); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(243,186,244,1) 0%, rgba(228,176,227,1) 47%, rgba(215,165,214,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(243,186,244,1)), color-stop(47%,rgba(228,176,227,1)), color-stop(100%,rgba(215,165,214,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(243,186,244,1) 0%,rgba(228,176,227,1) 47%,rgba(215,165,214,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(243,186,244,1) 0%,rgba(228,176,227,1) 47%,rgba(215,165,214,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(243,186,244,1) 0%,rgba(228,176,227,1) 47%,rgba(215,165,214,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(243,186,244,1) 0%,rgba(228,176,227,1) 47%,rgba(215,165,214,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3baf4', endColorstr='#d7a5d6',GradientType=0 ); /* IE6-9 */
+
+}
+
+#submit:active{
+	background: rgb(168,73,163); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(168,73,163,1) 0%, rgba(200,94,199,1) 53%, rgba(229,112,231,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(168,73,163,1)), color-stop(53%,rgba(200,94,199,1)), color-stop(100%,rgba(229,112,231,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(168,73,163,1) 0%,rgba(200,94,199,1) 53%,rgba(229,112,231,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(168,73,163,1) 0%,rgba(200,94,199,1) 53%,rgba(229,112,231,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(168,73,163,1) 0%,rgba(200,94,199,1) 53%,rgba(229,112,231,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(168,73,163,1) 0%,rgba(200,94,199,1) 53%,rgba(229,112,231,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a849a3', endColorstr='#e570e7',GradientType=0 ); /* IE6-9 */
+
 }
 #confessionContainer:before,
 #confessionContainer:after {
