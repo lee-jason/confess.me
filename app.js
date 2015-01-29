@@ -8,16 +8,13 @@
 	, CookieSigner = require('cookie-signature')
 	, mongoose = require('mongoose')
 	, uriUtil = require('mongodb-uri')
-    , cookieSession = require('express-session')
-	//, cookieSession = require('cookie-session')
-	//, MongoStore = require('connect-mongo')(session)
-	, secrets = require('./secrets.js');
+    	, cookieSession = require('express-session');
 	
 	var env = process.env.NODE_ENV || 'development';
 	//ensure heroku or what ever web service actually has the NODE_ENV attribute set..
 	//otherwise will cause a mongo error due to not being able to find the db url.
 	console.log('environment:', env);
-	var mongourl = (process.env.NODE_ENV === 'production' ? 'mongodb://heroku_app24577909:6dtie406h7d3jh3o963bo0cl3e@ds051368.mongolab.com:51368/heroku_app24577909' : 'mongodb://localhost/confessme');
+	var mongourl = process.env.MONGOLAB_URI || 'mongodb://localhost/confessme';
 	var port = process.env.PORT || 5000;
 	
 	(process.env.NODE_ENV === 'production' ? io.set('log level', 1) : io.set('log level', 2));
@@ -25,7 +22,7 @@
 	server.listen(port);
 	var __dirname = "";
 	var cookieMaxAge = 8000;
-	var sessionKey = secrets.sessionKey;
+	var sessionKey = process.env.SESSION_KEY || 'development';
 	var messageHandler = new MessageHandler();
 	
 	// New call to compress content
